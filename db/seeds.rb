@@ -1,12 +1,12 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 [
-  { 
+  {
     attrs: {
-     name: 'corgi'
-        },
+      name: 'corgi'
+    },
     backstory: {
-      body: 'Killer pup here to save the day',
+      body: 'Killer pup here to save the day'
     },
     images: [
       { name: 'regular', filename: 'corgi.png' },
@@ -27,7 +27,7 @@
   },
   {
     attrs: {
-     name: 'cat'
+      name: 'cat'
     },
     backstory: {
       body: 'cat'
@@ -38,7 +38,7 @@
   },
   {
     attrs: {
-      name: 'bear',
+      name: 'bear'
     },
     backstory: {
       body: 'dat bear'
@@ -59,15 +59,15 @@
     ]
   },
   {
-   attrs: {
-     name: 'shark'
-   },
-   backstory: {
-     body: 'killer baby shark'
-   },
-   images: [
-     { name: 'shark', filename: 'shark.png' }
-   ]
+    attrs: {
+      name: 'shark'
+    },
+    backstory: {
+      body: 'killer baby shark'
+    },
+    images: [
+      { name: 'shark', filename: 'shark.png' }
+    ]
   },
   {
     attrs: {
@@ -161,7 +161,7 @@
   pet = Pet.create!(data[:attrs])
   data[:images].each do |image|
     Pets::Image.create!(pet: pet, trait: image[:trait] || 0).picture.attach(
-      io: File.open(Rails.root.join('tmp', image[:filename])),
+      io: File.open(Rails.root.join('public', 'images', image[:filename])),
       filename: image[:name]
     )
   end

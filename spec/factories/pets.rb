@@ -3,7 +3,7 @@ FactoryBot.define do
     name { Faker::Name.name }
 
     trait :with_images do
-      file_path = Rails.root.join("tmp", "corgi.png")
+      file_path = Rails.root.join('public', 'images', 'corgi.png')
       images { Rack::Test::UploadedFile.new(file_path, 'image/png') }
 
       after :create do |pet|
