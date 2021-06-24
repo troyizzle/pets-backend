@@ -38,9 +38,7 @@ Rails.application.configure do
   config.action_cable.url = 'wss://gizmo-pets-api.herokuapp.com'
   config.action_cable.allowed_request_origins = [
     'https://gizmo-pets-client.herokuapp.com',
-    %r{https://gizmo-pets-client.herokuapp.com.*},
-    'http://localhost:3000',
-    %r{http://localhost:3000.com.*}
+    %r{https://gizmo-pets-client.herokuapp.com.*}
   ]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
