@@ -191,8 +191,8 @@ end
     ]
   }
 ].each do |data|
-  question = ::Pets::Background::Question.create!(data[:attrs])
+  question = ::Pets::Background::Question.create(data[:attrs])
   data[:answers].each do |answer|
-    ::Pets::Background::Answer.create!(answer: answer, question_id: question.id)
+    ::Pets::Background::Answer.create(answer: answer, question_id: question.id)
   end
 end
