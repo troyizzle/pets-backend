@@ -11,6 +11,7 @@ module ApplicationCable
     # @return [User]
     def find_verified_user
       Rails.logger.info "connectioen token: #{cookies[:token]}"
+      puts "connection token: #{cookies[:token]}"
       reject_unauthorized_connection unless cookies[:token]
 
       # On production the token seems to be parsing the spacing
