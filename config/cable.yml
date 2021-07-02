@@ -3,5 +3,10 @@ redis: &redis
   url: redis://:p6e1de5f500959536618b6b1d1ccfc435c3cfb75e497698483d2f88d6fb72676a@ec2-3-212-31-94.compute-1.amazonaws.com:13869
 
 production: *redis
+
+redis: &redis
+  adapter: redis
+  url: redis://localhost:6379/1
+
 development: *redis
 test: *redis

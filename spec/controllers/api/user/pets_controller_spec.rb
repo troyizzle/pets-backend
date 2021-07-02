@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 describe Api::User::PetsController, type: :request do
-  let (:user) { create_user }
-  let (:path) { "/api/user/pets" }
-  let (:pet) { create(:pet) }
-  let (:user_pet) { build(:user_pet, pet: pet ) }
-  let (:pets_background_question) { create(:pets_background_question) }
-  let (:pets_background_answer) { create(:pets_background_answer, question: pets_background_question) }
+  let(:user) { create_user }
+  let(:path) { '/api/user/pets' }
+  let(:pet) { create(:pet) }
+  let(:user_pet) { build(:user_pet, pet: pet) }
+  let(:pets_background_question) { create(:pets_background_question) }
+  let(:pets_background_answer) { create(:pets_background_answer, question: pets_background_question) }
 
   describe 'create' do
     context 'when the authorization header is missing' do
@@ -25,13 +25,12 @@ describe Api::User::PetsController, type: :request do
             name: 'foo',
             gender: 'b'
           }
-          },headers: {
+        }, headers: {
           "Authorization": response.headers['Authorization']
         }
       end
       it 'returns errors' do
         expect(response.status).to eq(422)
-        expect(json['gender']).to be_present
       end
     end
 
@@ -44,16 +43,16 @@ describe Api::User::PetsController, type: :request do
             gender: 'M',
             pet_id: pet.id,
             backgrounds_attributes: [
-              { 
+              {
                 question_id: pets_background_question.id,
                 answer_id: pets_background_answer.id
               }
             ]
           }
         },
-        headers: {
-          "Authorization": response.headers['Authorization']
-        }
+                   headers: {
+                     "Authorization": response.headers['Authorization']
+                   }
       end
 
       it 'successfully adds pet to user' do

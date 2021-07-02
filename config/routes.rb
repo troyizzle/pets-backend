@@ -12,7 +12,12 @@ Rails.application.routes.draw do
     end
 
     namespace :user do
-      resource :pets, only: %w[create show]
+      resource :pets, only: %w[create]
+      namespace :pet do
+        resources :battles, only: %w[show create]
+      end
+      # TODO: Think this could be done through the resources
+      get 'pets', to: 'pets#index'
       get 'pets/me', to: 'pets#me'
       get 'notifications/me', to: 'notifications#me'
 

@@ -4,6 +4,12 @@ module Api
       before_action :set_user_pet, only: %w[me]
       before_action :authenticate_user!
 
+      def index
+        @user_pets = ::User::Pet.all
+        options = { collection: true }
+        render json: ::User::PetSerializer.new(@user_pets, options).serializable_hash
+      end
+
       def create
         @user_pet = ::User::Pet.new(user_pet_params)
         # TODO: This should just be user = current_user
@@ -13,11 +19,11 @@ module Api
         if @user_pet.save
           render json: ::User::PetSerializer.new(@user_pet).serializable_hash
         else
-          render json: @user_pet.errors, status: :unprocessable_entity
+          render json: { error: @user_pet.errors.messages }, status: :unprocessable_entity
         end
       end
 
-      def me 
+      def me
         render json: ::User::PetSerializer.new(@user_pet).serializable_hash
       end
 
@@ -30,7 +36,7 @@ module Api
       def user_pet_params
         params
           .require(:user_pet)
-          .permit(:name, :gender, :pet_id, backgrounds_attributes: [:question_id, :answer_id])
+          .permit(:name, :gender, :pet_id, backgrounds_attributes: %i[question_id answer_id])
       end
     end
   end

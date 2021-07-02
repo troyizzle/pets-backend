@@ -2,6 +2,8 @@
 
 class User::Notification < ApplicationRecord
   belongs_to :user
+  belongs_to :notifiable, polymorphic: true, optional: true
+  has_many :battles, as: :notifiable
 
   validates :message, presence: true
 

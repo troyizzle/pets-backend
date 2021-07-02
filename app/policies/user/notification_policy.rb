@@ -2,7 +2,8 @@
 
 class User::NotificationPolicy < ApplicationPolicy
   def update?
-    @record.user == @user
+    # TODO: Can't this just be done by the `user` association?
+    @record.user.id == @user.id
   end
 
   def read?

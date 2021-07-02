@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_22_001656) do
+ActiveRecord::Schema.define(version: 2021_07_02_194449) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,8 +92,11 @@ ActiveRecord::Schema.define(version: 2021_06_22_001656) do
     t.bigint "user_id", null: false
     t.string "message", default: "", null: false
     t.integer "status", default: 0
+    t.string "notifiable_type"
+    t.bigint "notifiable_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["notifiable_type", "notifiable_id"], name: "index_user_notifications_on_notifiable"
     t.index ["user_id"], name: "index_user_notifications_on_user_id"
   end
 
@@ -106,6 +109,30 @@ ActiveRecord::Schema.define(version: 2021_06_22_001656) do
     t.index ["answer_id"], name: "index_user_pet_backgrounds_on_answer_id"
     t.index ["pet_id"], name: "index_user_pet_backgrounds_on_pet_id"
     t.index ["question_id"], name: "index_user_pet_backgrounds_on_question_id"
+  end
+
+  create_table "user_pet_battle_actions", force: :cascade do |t|
+    t.bigint "battle_id", null: false
+    t.integer "weapon", default: 0
+    t.integer "damage", default: 0, null: false
+    t.bigint "attacker_id", null: false
+    t.bigint "attackee_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["attackee_id"], name: "index_user_pet_battle_actions_on_attackee_id"
+    t.index ["attacker_id"], name: "index_user_pet_battle_actions_on_attacker_id"
+    t.index ["battle_id"], name: "index_user_pet_battle_actions_on_battle_id"
+  end
+
+  create_table "user_pet_battles", force: :cascade do |t|
+    t.bigint "winner_id"
+    t.bigint "opponent_id", null: false
+    t.bigint "challenger_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["challenger_id"], name: "index_user_pet_battles_on_challenger_id"
+    t.index ["opponent_id"], name: "index_user_pet_battles_on_opponent_id"
+    t.index ["winner_id"], name: "index_user_pet_battles_on_winner_id"
   end
 
   create_table "user_pets", force: :cascade do |t|
@@ -151,6 +178,12 @@ ActiveRecord::Schema.define(version: 2021_06_22_001656) do
   add_foreign_key "user_pet_backgrounds", "pets_background_answers", column: "answer_id"
   add_foreign_key "user_pet_backgrounds", "pets_background_questions", column: "question_id"
   add_foreign_key "user_pet_backgrounds", "user_pets", column: "pet_id"
+  add_foreign_key "user_pet_battle_actions", "user_pet_battles", column: "battle_id"
+  add_foreign_key "user_pet_battle_actions", "user_pets", column: "attackee_id"
+  add_foreign_key "user_pet_battle_actions", "user_pets", column: "attacker_id"
+  add_foreign_key "user_pet_battles", "user_pets", column: "challenger_id"
+  add_foreign_key "user_pet_battles", "user_pets", column: "opponent_id"
+  add_foreign_key "user_pet_battles", "user_pets", column: "winner_id"
   add_foreign_key "user_pets", "pets"
   add_foreign_key "user_pets", "users"
 end

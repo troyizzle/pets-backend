@@ -3,5 +3,5 @@
 class User::NotificationSerializer
   include JSONAPI::Serializer
 
-  attributes :message, :status
+  attributes :message, :status, :notifiable_id, :notifiable_type
 end
