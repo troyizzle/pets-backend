@@ -2,10 +2,11 @@ require 'open-uri'
 
 class User::Pet < ApplicationRecord
   belongs_to :user
+  has_many :food, dependent: :destroy
   belongs_to :pet, class_name: '::Pet'
   has_many :backgrounds, class_name: 'User::Pet::Background', dependent: :destroy
   accepts_nested_attributes_for :backgrounds, allow_destroy: true
-  GENDERS = %w(M F).freeze
+  GENDERS = %w[M F].freeze
 
   # TODO: Change Pets::Image to have a polymorphic relationship??
   has_one_attached :image
@@ -38,12 +39,12 @@ class User::Pet < ApplicationRecord
     image.attach(io: URI.open(uri), filename: uri)
   end
 
-  private 
+  private
 
   def default_stats
-    self.health = self.health.zero? ? rand(Pet::MIN_HEALTH..Pet::MAX_HEALTH) : self.health
-    self.attack = self.attack.zero? ? rand(Pet::MIN_ATTACK..Pet::MAX_ATTACK) : self.attack
-    self.hunger = self.hunger.zero? ? rand(Pet::MIN_HUNGER..Pet::MAX_HUNGER) : self.hunger
+    self.health = health.zero? ? rand(Pet::MIN_HEALTH..Pet::MAX_HEALTH) : health
+    self.attack = attack.zero? ? rand(Pet::MIN_ATTACK..Pet::MAX_ATTACK) : attack
+    self.hunger = hunger.zero? ? rand(Pet::MIN_HUNGER..Pet::MAX_HUNGER) : hunger
     save
   end
 end

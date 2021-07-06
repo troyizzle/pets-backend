@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       # TODO: Think this could be done through the resources
       get 'pets', to: 'pets#index'
       get 'pets/me', to: 'pets#me'
+      get 'pets/food', to: 'pets#food'
       get 'notifications/me', to: 'notifications#me'
 
       get 'notifications/:id/read', to: 'notifications#read'

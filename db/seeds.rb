@@ -158,15 +158,15 @@
     ]
   }
 ].each do |data|
-  pet = Pet.create!(data[:attrs])
+  pet = Pet.create(data[:attrs])
   data[:images].each do |image|
-    Pets::Image.create!(pet: pet, trait: image[:trait] || 0).picture.attach(
+    Pets::Image.create(pet: pet, trait: image[:trait] || 0).picture.attach(
       io: File.open(Rails.root.join('public', 'images', image[:filename])),
       filename: image[:name]
     )
   end
 
-  Pets::Backstory.create!(data[:backstory].merge(pet_id: pet.id))
+  Pets::Backstory.create(data[:backstory].merge(pet_id: pet.id))
 end
 
 [
@@ -195,4 +195,26 @@ end
   data[:answers].each do |answer|
     ::Pets::Background::Answer.create(answer: answer, question_id: question.id)
   end
+end
+
+# Pets::Food
+
+[
+  {
+    attrs: {
+      weight: 1,
+      value: 1,
+      rarity: 1,
+      hunger: 1
+    },
+    image: {
+      filename: 'apple.png'
+    }
+  }
+].each do |data|
+  food = ::Pets::Food.find_or_create_by(data[:attrs])
+  food.image.attach(
+    io: File.open(Rails.root.join('public', 'images', data[:image][:filename])),
+    filename: data[:image][:filename]
+  )
 end

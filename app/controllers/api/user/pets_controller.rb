@@ -1,7 +1,7 @@
 module Api
   module User
     class PetsController < ApplicationController
-      before_action :set_user_pet, only: %w[me]
+      before_action :set_user_pet, only: %w[me food]
       before_action :authenticate_user!
 
       def index
@@ -25,6 +25,11 @@ module Api
 
       def me
         render json: ::User::PetSerializer.new(@user_pet).serializable_hash
+      end
+
+      def food
+        options = { collection: true, include: %i[food] }
+        render json: ::User::Pet::FoodSerializer.new(@user_pet.food, options).serializable_hash
       end
 
       private

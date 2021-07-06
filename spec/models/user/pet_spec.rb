@@ -5,6 +5,7 @@ RSpec.describe User::Pet, type: :model do
     it { should belong_to(:user).class_name('User') }
     it { should belong_to(:pet).class_name('::Pet') }
     it { should have_many(:backgrounds).class_name('User::Pet::Background').dependent(:destroy) }
+    it { should have_many(:food).class_name('::User::Pet::Food').dependent(:destroy) }
 
     context 'user association' do
       subject { create(:user_pet).user }

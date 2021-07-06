@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_02_194449) do
+ActiveRecord::Schema.define(version: 2021_07_05_024752) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,6 +80,15 @@ ActiveRecord::Schema.define(version: 2021_07_02_194449) do
     t.index ["pet_id"], name: "index_pets_backstories_on_pet_id"
   end
 
+  create_table "pets_foods", force: :cascade do |t|
+    t.integer "rarity", default: 0, null: false
+    t.integer "weight", default: 0, null: false
+    t.integer "value", default: 0, null: false
+    t.integer "hunger", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "pets_images", force: :cascade do |t|
     t.bigint "pet_id", null: false
     t.integer "trait", default: 0
@@ -135,6 +144,20 @@ ActiveRecord::Schema.define(version: 2021_07_02_194449) do
     t.index ["winner_id"], name: "index_user_pet_battles_on_winner_id"
   end
 
+  create_table "user_pet_foods", force: :cascade do |t|
+    t.bigint "food_id", null: false
+    t.bigint "pet_id", null: false
+    t.integer "rarity", default: 0, null: false
+    t.integer "weight", default: 0, null: false
+    t.integer "hunger", default: 0, null: false
+    t.integer "value", default: 0, null: false
+    t.datetime "last_decay_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["food_id"], name: "index_user_pet_foods_on_food_id"
+    t.index ["pet_id"], name: "index_user_pet_foods_on_pet_id"
+  end
+
   create_table "user_pets", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "pet_id", null: false
@@ -184,6 +207,8 @@ ActiveRecord::Schema.define(version: 2021_07_02_194449) do
   add_foreign_key "user_pet_battles", "user_pets", column: "challenger_id"
   add_foreign_key "user_pet_battles", "user_pets", column: "opponent_id"
   add_foreign_key "user_pet_battles", "user_pets", column: "winner_id"
+  add_foreign_key "user_pet_foods", "pets_foods", column: "food_id"
+  add_foreign_key "user_pet_foods", "user_pets", column: "pet_id"
   add_foreign_key "user_pets", "pets"
   add_foreign_key "user_pets", "users"
 end

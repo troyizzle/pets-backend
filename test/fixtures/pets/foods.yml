@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  rarity: 1
+  weight: 1
+  value: 1
+  hunger: 1
+
+two:
+  rarity: 1
+  weight: 1
+  value: 1
+  hunger: 1
